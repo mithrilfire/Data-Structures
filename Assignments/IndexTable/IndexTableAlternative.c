@@ -134,7 +134,7 @@ void degistir(int liste[M][N], int id[], int ind, int yeniNot)
 
     }
 
-    while (true)
+    while (1)
     {
 
         //Yukarida aldigim siralar ile id listesinde bir onceki siradaki elemanlarla kiyaslama yapiyorum. 
