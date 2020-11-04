@@ -154,7 +154,7 @@ void degistir(int liste[M][N], int id[], int ind, int yeniNot)
     while (true)
     {
 
-        //Yukarida aldigim siralar ile id listesinde bir onceki siradaki elemanlarla kiyaslama yapiyorum. 
+        //Yukarida aldigim siralar ile id listesinde bir onceki siradaki elemanlarla kiyaslama yapiyorum.
         //(Bir onceki indexte eleman var ise)
         //Kiyaslama sonucunda onceki eleman yeni deger atanmis elemanimizdan daha kucuk ise yer degistiriyorum,
         //Cunku bu buyukten kucuge dogru siralanmis bir tablo.
