@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define CUSTCOUNT 15
+#define CUSTOMERCOUNT 15
 #define MAXLENGTH 8
 
-const char *customer_names[CUSTCOUNT] = {"Ahmet","Bilal","Cemal","Adem","Yasin","Esin","Emel","Mustafa","Ayten","Ceylan","Nesrin","Bekir","Emin","Hakan","Hatice"};
-const int invoice_prices[CUSTCOUNT] = {100,1000,600,650,350,270,410,750,600,1000,900,850,790,610,550};
+const char customer_names[CUSTOMERCOUNT][MAXLENGTH] = {"Ahmet","Bilal","Cemal","Adem","Yasin","Esin","Emel","Mustafa","Ayten","Ceylan","Nesrin","Bekir","Emin","Hakan","Hatice"};
+const int invoice_prices[CUSTOMERCOUNT] = {100,1000,600,650,350,270,410,750,600,1000,900,850,790,610,550};
 
 struct customer_list
 {
@@ -21,7 +21,7 @@ struct index_list
     struct index_list *next;
 };
 
-void ekle(struct customer_list **customerlist_head, const char *new_customer_name, int new_invoice_price)
+void append_to_customerlist(struct customer_list **customerlist_head, const char *new_customer_name, int new_invoice_price)
 {
 
     struct customer_list *new_customer = (struct customer_list*) malloc(sizeof(struct customer_list));
@@ -46,7 +46,7 @@ void ekle(struct customer_list **customerlist_head, const char *new_customer_nam
 
 }
 
-void ekle_index_isim(struct index_list **indexlist_head, struct customer_list *new_customer_address)
+void insert_name_order(struct index_list **indexlist_head, struct customer_list *new_customer_address)
 {
 
     struct index_list *new_index_element = (struct index_list*) malloc(sizeof(struct index_list));
@@ -98,7 +98,7 @@ void ekle_index_isim(struct index_list **indexlist_head, struct customer_list *n
 
 }
 
-void ekle_index_fatura(struct index_list **indexlist_head, struct customer_list *new_customer_address)
+void insert_price_order(struct index_list **indexlist_head, struct customer_list *new_customer_address)
 {
 
     struct index_list *new_index_element = (struct index_list*) malloc(sizeof(struct index_list));
@@ -150,22 +150,22 @@ void ekle_index_fatura(struct index_list **indexlist_head, struct customer_list 
 
 }
 
-void yazdir(struct index_list **name_indexlist_head, struct index_list **invoice_indexlist_head)
+void print_lists(struct index_list *name_indexlist_head, struct index_list *invoice_indexlist_head)
 {
 
     struct index_list *iter = NULL;
 
-    iter = *name_indexlist_head;
+    iter = name_indexlist_head;
 
-    printf("----------------------------\n");
+    printf("\n----------------------------\n\t%s\n----------------------------\n\n","Sorted by name");
     while(iter != NULL)
     {
         printf("Name : %s \tInvoice price: %d\n", iter->customer_address->customer_name,iter->customer_address->invoice_price);
         iter = iter->next;
     }
-    printf("----------------------------\n");
+    printf("\n----------------------------\n\t%s\n----------------------------\n\n","Sorted by price");
 
-    iter = *invoice_indexlist_head;
+    iter = invoice_indexlist_head;
 
     while(iter != NULL)
     {
@@ -173,7 +173,7 @@ void yazdir(struct index_list **name_indexlist_head, struct index_list **invoice
         iter = iter->next;
     }
 
-    printf("----------------------------\n");
+    printf("\n----------------------------\n");
 
 }
 
@@ -185,8 +185,8 @@ int main()
     struct index_list *index_list_invoice = NULL;
 
     int i;
-    for (i = 0; i <CUSTCOUNT; i++) {
-        ekle(&_customer_list, customer_names[i], invoice_prices[i]);
+    for (i = 0; i <CUSTOMERCOUNT; i++) {
+        append_to_customerlist(&_customer_list, customer_names[i], invoice_prices[i]);
     }
 
     struct customer_list *iter = NULL;
@@ -194,12 +194,12 @@ int main()
 
     while (iter != NULL) {
 
-        ekle_index_isim(&index_list_name, iter);
-        ekle_index_fatura(&index_list_invoice, iter);
+        insert_name_order(&index_list_name, iter);
+        insert_price_order(&index_list_invoice, iter);
         iter = iter->next;
     }
 
-    yazdir(&index_list_name,&index_list_invoice);
+    print_lists(index_list_name,index_list_invoice);
 
     return 0;
 
