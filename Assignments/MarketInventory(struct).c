@@ -52,7 +52,7 @@ struct non_food
     char aisle_side; //'A' or 'B'
 };
 
-void add_product(struct product **head, char category)
+int add_product(struct product **head, char category)
 {
     struct product * new_element = (struct product *) malloc(sizeof(struct product));
     struct product * iter;
@@ -60,13 +60,13 @@ void add_product(struct product **head, char category)
     char name[MAX_NAME_SIZE];
     char buf[BUFFER_LENGTH];
 
-    printf("Urun adi -> ");
+    printf("\nUrun adi -> ");
 
     if (fgets(buf, BUFFER_LENGTH, stdin)) {
         sscanf(buf,"%s",name);
     }
 
-    printf("Urunun birim maliyeti -> ");
+    printf("\nUrunun birim maliyeti -> ");
 
     if (fgets(buf, BUFFER_LENGTH, stdin)) {
         sscanf(buf,"%d",&new_element->price);
@@ -76,24 +76,24 @@ void add_product(struct product **head, char category)
     new_element->product_category = category;
     new_element->next = NULL;
 
-    if (category == 'E')
+    if (category == 'E' || category == 'e')
     {
         struct meat * new_data = (struct meat *) malloc(sizeof(struct meat));
         char type, p_date[MAX_DATE_SIZE], e_date[MAX_DATE_SIZE];
 
-        printf("Et turu ('R' : Kirmizi et, 'B' : Balik, 'P' : Tavuk) -> ");
+        printf("\nEt turu ('R' : Kirmizi et, 'B' : Balik, 'P' : Tavuk) -> ");
 
         if (fgets(buf, BUFFER_LENGTH, stdin)) {
             sscanf(buf,"%c",&type);
         }
 
-        printf("Paketlenme tarihi ( 'GG-AA-YYYY' ) -> ");
+        printf("\nPaketlenme tarihi ( 'GG-AA-YYYY' ) -> ");
 
         if (fgets(buf, BUFFER_LENGTH, stdin)) {
             sscanf(buf,"%s",p_date);
         }
 
-        printf("Son tuketim tarihi ( 'GG-AA-YYYY' ) -> ");
+        printf("\nSon tuketim tarihi ( 'GG-AA-YYYY' ) -> ");
 
         if (fgets(buf, BUFFER_LENGTH, stdin)) {
             sscanf(buf,"%s",e_date);
@@ -105,18 +105,18 @@ void add_product(struct product **head, char category)
 
         new_element->product_data = new_data;
     }
-    else if (category == 'T')
+    else if (category == 'T' || category == 't')
     {
         struct vegetable * new_data = (struct vegetable *) malloc(sizeof(struct vegetable));
         char type, p_date[MAX_DATE_SIZE];
 
-        printf("Tarim turu ('M' : Meyve, 'S' : Sebze) -> ");
+        printf("\nTarim turu ('M' : Meyve, 'S' : Sebze) -> ");
 
         if (fgets(buf, BUFFER_LENGTH, stdin)) {
             sscanf(buf,"%c",&type);
         }
 
-        printf("Paketlenme tarihi ( 'GG-AA-YYYY' ) -> ");
+        printf("\nPaketlenme tarihi ( 'GG-AA-YYYY' ) -> ");
 
         if (fgets(buf, BUFFER_LENGTH, stdin)) {
             sscanf(buf,"%s",p_date);
@@ -127,12 +127,12 @@ void add_product(struct product **head, char category)
 
         new_element->product_data = new_data;
     }
-    else if (category == 'S')
+    else if (category == 'S' || category == 's')
     {
         struct dairy_product * new_data = (struct dairy_product *) malloc(sizeof(struct dairy_product));
         char e_date[MAX_DATE_SIZE];
 
-        printf("Son tuketim tarihi ( 'GG-AA-YYYY' ) -> ");
+        printf("\nSon tuketim tarihi ( 'GG-AA-YYYY' ) -> ");
 
         if (fgets(buf, BUFFER_LENGTH, stdin)) {
             sscanf(buf,"%s",e_date);
@@ -142,24 +142,24 @@ void add_product(struct product **head, char category)
 
         new_element->product_data = new_data;
     }
-    else if (category == 'K')
+    else if (category == 'K' || category == 'k')
     {
         struct canned_food * new_data = (struct canned_food *) malloc(sizeof(struct canned_food));
         char a_side, e_date[MAX_DATE_SIZE];
         int a_number;
-        printf("Son tuketim tarihi ( 'GG-AA-YYYY' ) -> ");
+        printf("\nSon tuketim tarihi ( 'GG-AA-YYYY' ) -> ");
 
         if (fgets(buf, BUFFER_LENGTH, stdin)) {
             sscanf(buf,"%s",e_date);
         }
 
-        printf("Reyon numarasi -> ");
+        printf("\nReyon numarasi -> ");
 
         if (fgets(buf, BUFFER_LENGTH, stdin)) {
             sscanf(buf,"%d", &a_number);
         }
 
-        printf("Reyon tarafi ('A' ya da 'B') -> ");
+        printf("\nReyon tarafi ('A' ya da 'B') -> ");
 
         if (fgets(buf, BUFFER_LENGTH, stdin)) {
             sscanf(buf,"%c", &a_side);
@@ -171,24 +171,24 @@ void add_product(struct product **head, char category)
 
         new_element->product_data = new_data;
     }
-    else if (category == 'G')
+    else if (category == 'G' || category == 'g')
     {
         struct non_food * new_data = (struct non_food *) malloc(sizeof(struct non_food));
         char a_side, type;
         int a_number;
-        printf("Turu ('C' : Temizlik, 'P' : Eczane, 'D' : Diger) -> ");
+        printf("\nTuru ('C' : Temizlik, 'P' : Eczane, 'D' : Diger) -> ");
 
         if (fgets(buf, BUFFER_LENGTH, stdin)) {
             sscanf(buf,"%c", &type);
         }
 
-        printf("Reyon numarasi -> ");
+        printf("\nReyon numarasi -> ");
 
         if (fgets(buf, BUFFER_LENGTH, stdin)) {
             sscanf(buf,"%d", &a_number);
         }
 
-        printf("Reyon tarafi ('A' ya da 'B') -> ");
+        printf("\nReyon tarafi ('A' ya da 'B') -> ");
 
         if (fgets(buf, BUFFER_LENGTH, stdin)) {
             sscanf(buf,"%c", &a_side);
@@ -203,13 +203,17 @@ void add_product(struct product **head, char category)
     else
     {
         free(new_element);
-        return;
+
+        return 1;
     }
 
     if (*head == NULL)
     {
+
         *head = new_element;
-        return;
+
+        return 0;
+
     }
 
     iter = *head;
@@ -221,6 +225,7 @@ void add_product(struct product **head, char category)
 
     iter->next = new_element;
 
+    return 0;
 }
 
 void show_product(struct product *head)
@@ -234,31 +239,31 @@ void show_product(struct product *head)
     {
         char cat = iter->product_category;
 
-        if (cat == 'E')
+        if (cat == 'E' || cat == 'e')
         {
             struct meat *data = (struct meat *) iter->product_data;
 
             printf("%s %d %c %s %s\n", iter->product_name, iter->price, data->type, data->pack_date, data->expiration_date);
         }
-        else if (cat == 'T')
+        else if (cat == 'T' || cat == 't')
         {
             struct vegetable *data = (struct vegetable *) iter->product_data;
 
             printf("%s %d %c %s\n", iter->product_name, iter->price, data->type, data->pack_date);
         }
-        else if (cat == 'S')
+        else if (cat == 'S' || cat == 's')
         {
             struct dairy_product *data = (struct dairy_product *) iter->product_data;
 
             printf("%s %d %s\n", iter->product_name, iter->price, data->expiration_date);
         }
-        else if (cat == 'K')
+        else if (cat == 'K' || cat == 'k')
         {
             struct canned_food *data = (struct canned_food *) iter->product_data;
 
             printf("%s %d %s %d %c\n", iter->product_name, iter->price, data->expiration_date, data->aisle_number, data->aisle_side);
         }
-        else if (cat == 'G')
+        else if (cat == 'G' || cat == 'g')
         {
             struct non_food *data = (struct non_food *) iter->product_data;
 
@@ -276,34 +281,46 @@ int main()
     struct product * head = NULL;
     int input = 0;
     char buf[BUFFER_LENGTH];
+    int product_counter = 1;
     while (1) {
+
         input = 0;
-        printf("0: Urun Ekle, 1: Urunleri Listele, 2: Cikis -> ");
+        printf("\n(0) Urun Ekle, (1) Urunleri Listele, (2) Cikis -> ");
+
         if (fgets(buf, BUFFER_LENGTH, stdin)) {
             sscanf(buf,"%d",&input);
         }
 
-        if (input == 0)
+        if (input == 0) // Add New Product
         {
+
             char test;
-            printf("E: Et, T: Tarim, S: Sut, K: Konserve, G: Gida-disi -> ");
+
+            printf("\n------------<%d. Urun Bilgileri>------------\n", product_counter);
+
+            printf("\nE: Et, T: Tarim, S: Sut, K: Konserve, G: Gida-disi -> ");
+
             if (fgets(buf, BUFFER_LENGTH, stdin)) {
                 sscanf(buf,"%c",&test);
             }
-            add_product(&head, test);
+
+            if( add_product(&head, test) == 0 )
+            {
+                product_counter++;
+            }
 
         }
-        else if (input == 1)
+        else if (input == 1) // Show Products
         {
             show_product(head);
         }
-        else if (input == 2)
+        else if (input == 2) // Exit
         {
             break;
         }
-        else
+        else // Incorrect input
         {
-            printf("Hatali giris!\n");
+            printf("\nHatali giris!\n");
         }
 
     }
