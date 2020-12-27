@@ -3,15 +3,19 @@
 
 struct binary_tree
 {
+
     int value;
     struct binary_tree *left_child;
     struct binary_tree *right_child;
+
 };
 
 struct queue
 {
+
     struct binary_tree *data;
     struct queue *next;
+    
 };
 
 struct binary_tree *create_node(int value)
@@ -68,7 +72,7 @@ void insert_node_right(struct binary_tree *node, struct binary_tree *new_node)
 void print_pre_order(struct binary_tree *node)
 {
 
-    printf("\t%d\n", node->value);
+    printf("[%d] ", node->value);
 
     if (node->left_child)
     {
@@ -96,7 +100,7 @@ void print_in_order(struct binary_tree *node)
 
     }
 
-    printf("\t%d\n", node->value);
+    printf("[%d] ", node->value);
 
     if (node->right_child)
     {
@@ -124,7 +128,7 @@ void print_post_order(struct binary_tree *node)
 
     }
 
-    printf("\t%d\n", node->value);
+    printf("[%d] ", node->value);
 
 }
 
@@ -139,15 +143,19 @@ void enqueue(struct queue **queue_head, struct binary_tree *data)
 
     if (!(*queue_head))
     {
+
         *queue_head = new_e;
         return;
+
     }
     
     iter = *queue_head;
 
     while (iter->next)
     {
+
         iter = iter->next;
+
     }
     
     iter->next = new_e;
@@ -161,18 +169,24 @@ struct binary_tree *dequeue(struct queue **queue_head)
 
     if (!(*queue_head))
     {
+
         return NULL;
+
     }
     
     result = (*queue_head)->data;
     
     if ((*queue_head)->next)
     {
+
         *queue_head = (*queue_head)->next;
+
     }
     else
     {
+
         *queue_head = NULL;
+
     }
 
     return result;
@@ -189,10 +203,21 @@ void print_bfs(struct binary_tree *tree_head)
     while (node != NULL)
     {
 
-        printf("\t%d\n", node->value);
+        printf("[%d] ", node->value);
+        
+        if (node->left_child)
+        {
 
-        enqueue(&new_queue, node->left_child);
-        enqueue(&new_queue, node->right_child);
+            enqueue(&new_queue, node->left_child);
+
+        }
+        
+        if (node->right_child)
+        {
+
+            enqueue(&new_queue, node->right_child);
+            
+        }
 
         node = dequeue(&new_queue);
 
@@ -204,21 +229,25 @@ int main()
 {
 
     struct binary_tree *binary_list = NULL;
+
     binary_list = create_node(1);
     insert_node_left(binary_list, create_node(2));
     insert_node_right(binary_list, create_node(3));
     insert_node_left(binary_list->left_child, create_node(4));
     insert_node_right(binary_list->left_child, create_node(5));
+    insert_node_left(binary_list->right_child, create_node(6));
+    insert_node_right(binary_list->right_child, create_node(7));
 
-    printf("-------<->-------\n\n");
+    printf("\nPre-Order------------\n\n ");
     print_pre_order(binary_list);
-    printf("\n-------<O>-------\n\n");
+    printf("\n\nIn-Order-------------\n\n ");
     print_in_order(binary_list);
-    printf("\n-------<+>-------\n\n");
+    printf("\n\nPost-Order-----------\n\n ");
     print_post_order(binary_list);
-    printf("\n-------<V>-------\n\n");
+    printf("\n\nBreadth-First Search-\n\n ");
     print_bfs(binary_list);
-    
+    printf("\n\n---------------------");
+
     return 0;
 
 }
